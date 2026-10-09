@@ -1,0 +1,6 @@
+apiVersion: v2
+name: erp-adapter
+description: metasfresh ERP on CMC CaaS with external database, RabbitMQ and Elasticsearch
+type: application
+version: 0.2.0
+appVersion: "5.175"

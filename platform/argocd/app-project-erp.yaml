@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: erp
+  namespace: argocd
+spec:
+  description: Reviewed ERP workloads and encrypted runtime secrets
+  # Populated from GITOPS_REPO_URL by platform/bootstrap.py.
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+  destinations:
+    - namespace: erp
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - {group: apps, kind: Deployment}
+    - {group: "", kind: Service}
+    - {group: "", kind: ConfigMap}
+    - {group: "", kind: PersistentVolumeClaim}
+    - {group: "", kind: ServiceAccount}
+    - {group: networking.k8s.io, kind: Ingress}
+    - {group: networking.k8s.io, kind: NetworkPolicy}
+    - {group: autoscaling, kind: HorizontalPodAutoscaler}
+    - {group: policy, kind: PodDisruptionBudget}
+    - {group: bitnami.com, kind: SealedSecret}
+  orphanedResources:
+    warn: true

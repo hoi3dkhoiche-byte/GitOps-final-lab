@@ -1,0 +1,1 @@
+{{ include "erp.deployment" (dict "root" . "component" "core" "port" 8282) }}
