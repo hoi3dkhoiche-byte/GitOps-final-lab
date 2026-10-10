@@ -11,7 +11,7 @@ metadata:
     app: metasfresh-{{ $component }}
     {{- include "erp.labels" $ | nindent 4 }}
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: {{ if eq $component "core" }}"20"{{ else if eq $component "api" }}"30"{{ else }}"40"{{ end }}
     argocd.argoproj.io/sync-options: Prune=false,Delete=false
     helm.sh/resource-policy: keep
 spec:
