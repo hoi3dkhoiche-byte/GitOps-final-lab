@@ -22,7 +22,7 @@ databaseTLS:
   key: ca.crt
   mountPath: /etc/metasfresh/db-ca/ca.crt
 persistence:
-  storageClass: ''
+  storageClass: highio
 core:
   nodeSelector: &id001
     cmc-cloud-k8s-nodegroups: nodegroup-gd6u
@@ -53,7 +53,7 @@ externalDB:
 ingress:
   enabled: true
   className: haproxy
-  host: ''
+  host: erp.local.vn
   tlsSecretName: erp-origin-tls
 networkPolicy:
   enabled: true
