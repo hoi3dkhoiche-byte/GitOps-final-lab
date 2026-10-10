@@ -24,15 +24,24 @@ databaseTLS:
 persistence:
   storageClass: highio
 core:
+  image:
+    repository: 10.60.50.30/metasfresh/metasfresh-app
+    tag: "5.195.1"
   nodeSelector: &id001
     cmc-cloud-k8s-nodegroups: nodegroup-gd6u
   persistence:
     existingClaim: ''
 api:
+  image:
+    repository: 10.60.50.30/metasfresh/metasfresh-api
+    tag: "5.195.1"
   nodeSelector: *id001
   persistence:
     existingClaim: ''
 ui:
+  image:
+    repository: 10.60.50.30/metasfresh/metasfresh-webui
+    tag: "5.195.1"
   nodeSelector: *id001
   config:
     apiUrl: /rest/api
