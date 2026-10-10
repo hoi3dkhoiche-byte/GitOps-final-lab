@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: harbor-pull
+  namespace: erp
+spec:
+  encryptedData:
+    .dockerconfigjson: AgATdDtZTHChcDLeQfnZ/k2wvXwQ2U7jUpgaNuMSSUZ9arBMUMu+pVUkYSBDAJhDLdbdJTQQYVg8nLnWhHD59aBIcrQAqbaz6HnHRQLuJKmpF+kgkczkQ9687IJNCuEtPRTY7gMEbUg7NpinclQNSHYeWfFvfzhPwMVhglIb1EWdon5GR0qwo+KcUDCx4xIzXFyDYBoLTtDCqDoIqY1Fu5C1regXjZikz40GwsL4lHiyLxz1pqGjIVeDuLQKl+BCyfCT5raYEdyIMnvW+ANNmOjIVvXzCLUIYu@D38c+zY6OOzpcbKbSOLWSLoWXBuGpr/Ti5Q7Eokbbf4gOhvsxbe6uEz43ml29zC0k3D1LQ2BVmVcYfW27GT6Wq7rHeHSuGWzUe/dPfBv8O7T6mamQv7zNASmj3QVh8iwkOWQOH6NSNeVQiCgpag/XaDuWpOnxa7XAs/PuTLCuai9yNeg/xWALWbTu87gW1oY2t3wefwbSYj5fbF1xA4j+UR+pJcVzVkX0N1OSqmFJ6HCwbIKi/3fWYZpZYNjNTkplmuKAZAHchlBrz2i5uNFHcesLqAhDTaZXjihbhzm66P2TiEgiZPez/drDsV9F4WwSAS4e7/vFsVyl54VIUb0vBusaM11Nw8h6pRyfWRUuQTrmcT03ZeBf1FDmogquYD3pm494XV2UAnY2Q8B02ROm1aw8kV1tZP2nbySWjR619pc20G7e608NqKKG6glo7seObBue2+7Qx3y9hEUgnTJSq++yPKE6ZU9IcOwQghvoESttiwlpiENdkgjgkPITEGBjnjboeiVij5wPSMDEXA/sG+BFT98MLw5m4FrwJT71FTTmf0AElVT0AMiidgDemRZYIW97v2CCuqrCglri992F2PLQQg7Bx8bfCPVL0zs4Z4um7CTXR02Mr0g==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: harbor-pull
+      namespace: erp
+    type: kubernetes.io/dockerconfigjson
