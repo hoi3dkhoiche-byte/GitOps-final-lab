@@ -25,7 +25,7 @@ persistence:
   storageClass: highio
 core:
   image:
-    repository: 10.60.50.30/metasfresh/metasfresh-app
+    repository: 10.60.50.30/metasfresh/metas-app
     tag: "5.175"
   nodeSelector: &id001
     cmc-cloud-k8s-nodegroups: nodegroup-gd6u
@@ -33,14 +33,14 @@ core:
     existingClaim: ''
 api:
   image:
-    repository: 10.60.50.30/metasfresh/metasfresh-api
+    repository: 10.60.50.30/metasfresh/metas-api
     tag: "5.175"
   nodeSelector: *id001
   persistence:
     existingClaim: ''
 ui:
   image:
-    repository: 10.60.50.30/metasfresh/metasfresh-webui
+    repository: 10.60.50.30/metasfresh/metas-frontend
     tag: "5.175"
   nodeSelector: *id001
   config:
