@@ -7,7 +7,7 @@ gitops:
   rootPath: ""
 erp:
   namespace: erp
-  domain: ""
+  domain: "erp.local.vn"
   tlsSecretName: erp-origin-tls
   propertiesSecret: erp-properties
   rabbitSecret: erp-rabbit-secret
@@ -21,7 +21,7 @@ cluster:
   cni: Calico
   podCIDR: 10.100.0.0/16
   serviceCIDR: 10.254.0.0/16
-  storageClass: ""
+  storageClass: "highio"
   nodeGroupLabel: cmc-cloud-k8s-nodegroups
   pools:
     app: {name: nodegroup-gd6u, addresses: [10.60.30.140, 10.60.30.240, 10.60.30.80]}
@@ -65,11 +65,11 @@ ingress:
   elb:
     class: cmc-loadbalancer-private
     flavorID: a80cfbb4-326b-4819-8e67-58eca8495490
-    vipSubnetID: ""
-    memberSubnetID: ""
-    vip: ""
-    backendSourceCIDRs: []
-    healthSourceCIDRs: []
+    vipSubnetID: "bde2e389-2f1e-4596-9910-092b49eeed27"
+    memberSubnetID: "0d542b44-226a-42e4-a419-9a348025fd4d"
+    vip: "10.60.20.111"
+    backendSourceCIDRs: ["10.60.20.0/24"]
+    healthSourceCIDRs: ["10.60.20.0/24"]
     allowedSources: [10.60.20.100/32]
   nodePort: 31443
   healthCheckNodePort: 32042
@@ -90,35 +90,35 @@ postgres:
   primary: 10.60.40.113
   readReplicas: [10.60.40.126, 10.60.40.45]
   port: 5432
-  database: ""
-  applicationUser: ""
-  backupUser: ""
+  database: "rds_postgres-erp"
+  applicationUser: "manhnguyenadmin"
+  backupUser: "manhnguyen"
   failoverEndpoint: ""
   sslMode: verify-full
   # CA/certificate SAN must match the chosen host; never disable verification.
   runnerRootCertPath: ""
   caSecret: erp-postgres-ca
-  compatibilityEvidence: ""
+  compatibilityEvidence: "Tested successfully on lab_seed"
 rabbitmq:
   host: 10.60.40.104
   port: 5672
   vhost: /
   version: 3.7.4-management
   managementBind: 127.0.0.1:15672
-  exporterTarget: ""
+  exporterTarget: "10.60.40.104:15692"
 search:
   host: 10.60.40.30
   port: 9200
   version: 7.9.3
   scheme: http
   transportPort: 0
-  exporterTarget: ""
+  exporterTarget: "10.60.40.30:9114"
 backup:
-  endpoint: ""
-  region: ""
-  postgresBucket: ""
-  veleroBucket: ""
-  endpointCIDRs: []
+  endpoint: "https://s3.hcm-5.cloud.cmctelecom.vn"
+  region: "hcm-1"
+  postgresBucket: "final-lab-db-manh"
+  veleroBucket: "final-lab-velero-manh"
+  endpointCIDRs: ["202.134.23.230/32"]
   repositorySecret: velero-repo-credentials
 monitoring:
   grafanaSecret: grafana-admin
@@ -126,5 +126,5 @@ monitoring:
   pgExporterTarget: ""
 rbac:
   # Supply real identity-provider groups before generating bindings.
-  readonlyGroup: ""
-  operatorGroup: ""
+  readonlyGroup: "admin"
+  operatorGroup: "admin"
