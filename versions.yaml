@@ -1,14 +1,14 @@
-# Release metadata. CI promotion owns images/source_commit/pipeline_url.
 image_family: metasfresh
-version: "5.175"
+version: '5.175'
 postgres_major: 18
 documented_postgres_baseline: 15
 postgres_compatibility: pending-isolated-validation
 seed_checksum: TBD
 migration_checksum: TBD
 images:
-  api: metasfresh/metas-api:5.175
-  app: metasfresh/metas-app:5.175
-  frontend: metasfresh/metas-frontend:5.175
-# platform/charts.lock.yaml is the authoritative platform package lock.
+  app: 10.60.50.30/metasfresh/metas-app@sha256:c4327743ef50077590878558b8dd94c86391c56d806c9525cde1fdb5be4d5cd3
+  api: 10.60.50.30/metasfresh/metas-api@sha256:1364ad06166a8b8a830e9a84c10cf20ce404c3e3f5915a273f87469ac0d743c6
+  frontend: 10.60.50.30/metasfresh/metas-frontend@sha256:c94094ff2d565bf8b40a72314ea76cca547ea29825a2ee815ada69c2707fb766
 platform_chart_lock: platform/charts.lock.yaml
+source_commit: 33b51b6924becca46547397b41298ea6463b55ea
+pipeline_url: https://github.com/hoi3dkhoiche-byte/Final-Lab-/actions/runs/38111931694
