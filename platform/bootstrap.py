@@ -186,7 +186,7 @@ def configured_argo(settings):
     project["spec"]["sourceRepos"] = [repo]
     application = yaml.safe_load((PLATFORM / "argocd/application-erp.yaml").read_text(encoding="utf-8"))
     secrets = yaml.safe_load((PLATFORM / "argocd/application-secrets.yaml").read_text(encoding="utf-8"))
-    for app, path in ((application, "charts/erp-adapter"), (secrets, "sealed-secrets/erp")):
+    for app, path in ((application, "charts/erp-adapter"), (secrets, "sealed-secrets")):
         app["spec"]["source"].update(repoURL=repo, targetRevision=revision, path=prefix + path)
     return project, application, secrets
 
