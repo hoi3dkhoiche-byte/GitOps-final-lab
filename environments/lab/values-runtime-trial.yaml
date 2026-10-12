@@ -1,0 +1,32 @@
+# Trial runtime overlay for metasfresh ERP.
+# Do not point Core/API to the MAIN database Secret.
+
+validation:
+  strict: false
+
+runtime:
+  propertiesSecret:
+    name: erp-properties-trial
+    key: metasfresh.properties
+
+databaseTLS:
+  enabled: false
+
+core:
+  image:
+    repository: 10.60.50.30/metasfresh/metas-app
+    digest: sha256:c4327743ef50077590878558b8dd94c86391c56d806c9525cde1fdb5be4d5cd3
+
+api:
+  image:
+    repository: 10.60.50.30/metasfresh/metas-api
+    digest: sha256:1364ad06166a8b8a830e9a84c10cf20ce404c3e3f5915a273f87469ac0d743c6
+
+ui:
+  replicaCount: 1
+  image:
+    repository: 10.60.50.30/metasfresh/metas-frontend
+    digest: sha256:c94094ff2d565bf8b40a72314ea76cca547ea29825a2ee815ada69c2707fb766
+
+ingress:
+  enabled: false

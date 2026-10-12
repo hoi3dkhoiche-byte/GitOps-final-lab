@@ -109,7 +109,9 @@ spec:
         {{- include "erp.labels" $root | nindent 8 }}
       annotations:
         {{- if $backend }}
-        runtime-secret-revision: {{ $root.Values.runtime.propertiesSecret.revision | quote }}
+        {{- with $root.Values.runtime.propertiesSecret.revision }}
+        runtime-secret-revision: {{ . | quote }}
+        {{- end }}
         backup.velero.io/backup-volumes: business-data
         {{- else }}
         checksum/frontend-config: {{ include "erp.frontendConfig" $root | sha256sum }}
