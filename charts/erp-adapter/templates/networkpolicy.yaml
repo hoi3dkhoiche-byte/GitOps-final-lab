@@ -24,7 +24,8 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: {{ .Values.networkPolicy.dns.namespace }}
           podSelector:
-            {{- toYaml .Values.networkPolicy.dns.podSelector | nindent 12 }}
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.dns.podSelector | nindent 14 }}
       ports:
         - {protocol: UDP, port: 53}
         - {protocol: TCP, port: 53}
@@ -53,7 +54,8 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: {{ $.Values.networkPolicy.ingressController.namespace }}
           podSelector:
-            {{- toYaml $.Values.networkPolicy.ingressController.podSelector | nindent 12 }}
+            matchLabels:
+              {{- toYaml $.Values.networkPolicy.ingressController.podSelector | nindent 14 }}
       ports:
         - protocol: TCP
           port: {{ if eq $component "ui" }}80{{ else }}8080{{ end }}

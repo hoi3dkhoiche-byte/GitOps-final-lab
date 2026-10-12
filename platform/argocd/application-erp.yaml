@@ -14,6 +14,7 @@ spec:
       releaseName: erp
       valueFiles:
         - ../../environments/lab/values-lab.yaml
+        - ../../environments/lab/values-runtime-trial.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: erp
