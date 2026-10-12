@@ -109,8 +109,8 @@ spec:
         {{- include "erp.labels" $root | nindent 8 }}
       annotations:
         {{- if $backend }}
-        {{- with $root.Values.runtime.propertiesSecret.revision }}
-        runtime-secret-revision: {{ . | quote }}
+        {{- if or (eq $component "core") $root.Values.runtime.propertiesSecret.revision }}
+        runtime-secret-revision: {{ $root.Values.runtime.propertiesSecret.revision | quote }}
         {{- end }}
         backup.velero.io/backup-volumes: business-data
         {{- else }}
