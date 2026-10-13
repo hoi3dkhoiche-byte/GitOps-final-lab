@@ -105,8 +105,10 @@ grafana:
   tolerations:
     - {key: dedicated, operator: Equal, value: monitoring, effect: NoSchedule}
   resources:
-    requests: {cpu: 100m, memory: 128Mi}
-    limits: {cpu: 500m, memory: 256Mi}
+    requests: {cpu: 100m, memory: 512Mi}
+    limits: {cpu: 500m, memory: 768Mi}
+  env:
+    GOMEMLIMIT: "690MiB"
   service: {type: ClusterIP}
   ingress: {enabled: false}
   deploymentStrategy: {type: Recreate}
@@ -124,12 +126,19 @@ grafana:
       limits: {cpu: 100m, memory: 32Mi}
   sidecar:
     resources:
-      requests: {cpu: 10m, memory: 16Mi}
-      limits: {cpu: 100m, memory: 32Mi}
+      requests: {cpu: 10m, memory: 64Mi}
+      limits: {cpu: 100m, memory: 128Mi}
     dashboards:
+      # Temporary compatibility setting; review Kubernetes API TLS trust.
+      env:
+        DISABLE_X509_STRICT_VERIFICATION: "true"
       resource: configmap
       searchNamespace: monitoring
     datasources:
+      # Keep the datasource health endpoint separate from dashboards.
+      env:
+        DISABLE_X509_STRICT_VERIFICATION: "true"
+        HEALTH_PORT: "8081"
       resource: configmap
       searchNamespace: monitoring
   additionalDataSources:
