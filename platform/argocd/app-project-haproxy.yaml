@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: ingress-haproxy
+  namespace: argocd
+
+spec:
+  description: GitOps for HAProxy Ingress on CMC Cloud
+
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+
+  destinations:
+    - namespace: ingress-system
+      server: https://kubernetes.default.svc
+
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ServiceAccount
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Service
+    - group: apps
+      kind: Deployment
+    - group: policy
+      kind: PodDisruptionBudget
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+
+  clusterResourceWhitelist:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    - group: networking.k8s.io
+      kind: IngressClass
+
+  orphanedResources:
+    warn: false
