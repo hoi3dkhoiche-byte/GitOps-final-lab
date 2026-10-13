@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: velero-runtime
+  namespace: argocd
+
+spec:
+  project: velero-runtime
+
+  source:
+    repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+    targetRevision: main
+    path: platform/velero/gitops
+
+    directory:
+      recurse: false
+      include: velero-runtime.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+
+  syncPolicy: {}
