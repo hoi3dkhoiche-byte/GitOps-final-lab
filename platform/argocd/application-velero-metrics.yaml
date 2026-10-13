@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: velero-metrics
+  namespace: argocd
+
+spec:
+  project: velero-metrics
+
+  source:
+    repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+    targetRevision: main
+    path: platform/velero/metrics
+
+    directory:
+      recurse: false
+      include: velero-metrics.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+
+  syncPolicy: {}
