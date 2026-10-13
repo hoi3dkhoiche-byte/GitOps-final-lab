@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: haproxy-ingress
+  namespace: argocd
+
+spec:
+  project: ingress-haproxy
+
+  source:
+    repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+    targetRevision: main
+    path: platform/ingress/gitops
+
+    directory:
+      recurse: false
+      include: haproxy.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-system
+
+  syncPolicy: {}
