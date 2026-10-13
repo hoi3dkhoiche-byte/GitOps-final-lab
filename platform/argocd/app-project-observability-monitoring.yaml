@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: observability-monitoring-rules
+  namespace: argocd
+
+spec:
+  description: GitOps management for PrometheusRules and ServiceMonitors
+
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+
+  destinations:
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
+
+  namespaceResourceWhitelist:
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+
+  orphanedResources:
+    warn: false
