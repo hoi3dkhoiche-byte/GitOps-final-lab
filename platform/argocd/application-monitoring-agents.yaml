@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: monitoring-agents
+  namespace: argocd
+
+spec:
+  project: observability-metrics-agents
+
+  source:
+    repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+    targetRevision: main
+    path: platform/monitoring/agents
+
+    directory:
+      recurse: false
+      include: monitoring-agents.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy: {}
