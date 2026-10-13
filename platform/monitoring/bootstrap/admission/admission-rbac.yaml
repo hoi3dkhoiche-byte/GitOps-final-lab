@@ -1,0 +1,118 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: monitoring-admission
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/version: 92.1.0
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-92.1.0
+    release: monitoring
+    heritage: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/component: prometheus-operator-webhook
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitoring-admission
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/version: 92.1.0
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-92.1.0
+    release: monitoring
+    heritage: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/component: prometheus-operator-webhook
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - validatingwebhookconfigurations
+  - mutatingwebhookconfigurations
+  verbs:
+  - get
+  - update
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: monitoring-admission
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/version: 92.1.0
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-92.1.0
+    release: monitoring
+    heritage: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/component: prometheus-operator-webhook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: monitoring-admission
+subjects:
+- kind: ServiceAccount
+  name: monitoring-admission
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: monitoring-admission
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/version: 92.1.0
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-92.1.0
+    release: monitoring
+    heritage: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/component: prometheus-operator-webhook
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: monitoring-admission
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/version: 92.1.0
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-92.1.0
+    release: monitoring
+    heritage: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/component: prometheus-operator-webhook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: monitoring-admission
+subjects:
+- kind: ServiceAccount
+  name: monitoring-admission
+  namespace: monitoring
