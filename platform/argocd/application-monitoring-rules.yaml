@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
     targetRevision: main
-    path: platform-render/gitops
+    path: platform/monitoring/rules
 
     directory:
       recurse: false
