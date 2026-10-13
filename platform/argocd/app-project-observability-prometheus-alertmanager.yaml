@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: observability-prometheus-alertmanager
+  namespace: argocd
+
+spec:
+  description: GitOps for Prometheus and Alertmanager runtime
+
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+
+  destinations:
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
+
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ServiceAccount
+    - group: ""
+      kind: Service
+    - group: monitoring.coreos.com
+      kind: Prometheus
+    - group: monitoring.coreos.com
+      kind: Alertmanager
+
+  clusterResourceWhitelist:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+
+  orphanedResources:
+    warn: false
