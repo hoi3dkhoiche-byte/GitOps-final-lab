@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: velero-metrics
+  namespace: argocd
+
+spec:
+  description: Velero metrics discovery for Prometheus
+
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+
+  destinations:
+    - namespace: velero
+      server: https://kubernetes.default.svc
+
+  namespaceResourceWhitelist:
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+    - group: monitoring.coreos.com
+      kind: PodMonitor
+
+  clusterResourceWhitelist: []
+
+  orphanedResources:
+    warn: false
