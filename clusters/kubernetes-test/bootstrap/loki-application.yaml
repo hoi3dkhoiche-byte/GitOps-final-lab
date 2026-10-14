@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-monitoring
+  namespace: argocd
+spec:
+  project: default
+
+  sources:
+    - repoURL: https://grafana-community.github.io/helm-charts
+      chart: loki
+      targetRevision: 18.15.1
+      helm:
+        releaseName: loki
+        valueFiles:
+          - $values/clusters/kubernetes-test/observability/loki/values.yaml
+
+    - repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+      targetRevision: kubernetes-test
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: logging
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+

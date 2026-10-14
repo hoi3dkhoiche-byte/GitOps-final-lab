@@ -1,0 +1,123 @@
+deploymentMode: Monolithic
+
+loki:
+  auth_enabled: false
+
+  commonConfig:
+    replication_factor: 1
+    path_prefix: /var/loki
+
+  storage:
+    type: filesystem
+
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  limits_config:
+    retention_period: 72h
+    reject_old_samples: true
+    reject_old_samples_max_age: 72h
+
+  compactor:
+    working_directory: /var/loki/compactor
+    retention_enabled: true
+    delete_request_store: filesystem
+
+  querier:
+    max_concurrent: 2
+
+singleBinary:
+  replicas: 1
+  sidecar: false
+
+  nodeSelector:
+    cmccloud-k8s-nodegroups: nodegroup-monitoring
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 768Mi
+
+  persistence:
+    enabled: true
+    storageClass: highio
+    size: 5Gi
+    accessModes:
+      - ReadWriteOnce
+    enableStatefulSetAutoDeletePVC: false
+
+  podDisruptionBudget:
+    enabled: false
+
+gateway:
+  enabled: false
+
+chunksCache:
+  enabled: false
+
+resultsCache:
+  enabled: false
+
+lokiCanary:
+  enabled: false
+
+test:
+  enabled: false
+
+minio:
+  enabled: false
+
+monitoring:
+  serviceMonitor:
+    enabled: false
+  rules:
+    enabled: false
+  alerts:
+    enabled: false
+# Disable SimpleScalable components
+backend:
+  replicas: 0
+
+read:
+  replicas: 0
+
+write:
+  replicas: 0
+
+# Disable Distributed components
+ingester:
+  replicas: 0
+
+querier:
+  replicas: 0
+
+queryFrontend:
+  replicas: 0
+
+queryScheduler:
+  replicas: 0
+
+distributor:
+  replicas: 0
+
+compactor:
+  replicas: 0
+
+indexGateway:
+  replicas: 0
+
+bloomCompactor:
+  replicas: 0
+
+bloomGateway:
+  replicas: 0
