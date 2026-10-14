@@ -73,12 +73,6 @@ spec:
                 editable: false
                 jsonData:
                   timeInterval: 30s
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-
-  syncPolicy: {}
               - name: Loki-CMC
                 uid: loki-cmc
                 type: loki
@@ -88,3 +82,9 @@ spec:
                 editable: false
                 jsonData:
                   maxLines: 1000
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy: {}
