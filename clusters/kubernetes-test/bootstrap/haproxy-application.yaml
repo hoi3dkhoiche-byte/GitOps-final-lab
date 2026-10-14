@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: haproxy-ingress-test
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://haproxytech.github.io/helm-charts
+    chart: kubernetes-ingress
+    targetRevision: 1.54.0
+
+    helm:
+      releaseName: haproxy-test
+
+      valuesObject:
+        controller:
+          kind: Deployment
+          replicaCount: 1
+
+          nodeSelector:
+            cmccloud-k8s-nodegroups: nodegroup-platform
+
+          ingressClass: haproxy-test
+          ingressClassResource:
+            name: haproxy-test
+            default: false
+
+          service:
+            type: ClusterIP
+            enablePorts:
+              http: true
+              https: true
+              stat: false
+              admin: false
+              quic: false
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+          pprof:
+            enabled: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-system
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
