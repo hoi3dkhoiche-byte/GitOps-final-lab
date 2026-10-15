@@ -78,8 +78,10 @@ externalDB:
   searchTransportPort: 0
 
 ingress:
-  enabled: false
+  enabled: true
   className: haproxy-test
+  host: erp-test.lab.internal
+  tlsSecretName: erp-origin-tls
 
 networkPolicy:
   enabled: true
