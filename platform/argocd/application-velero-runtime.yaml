@@ -10,7 +10,7 @@ spec:
 
   source:
     repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
-    targetRevision: main
+    targetRevision: kubernetes-test
     path: platform/velero/gitops
 
     directory:

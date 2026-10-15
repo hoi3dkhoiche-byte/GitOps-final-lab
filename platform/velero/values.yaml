@@ -1,7 +1,7 @@
 image:
   tag: v1.18.1
 nodeSelector:
-  cmc-cloud-k8s-nodegroups: nodegroup-platform
+  cmccloud-k8s-nodegroups: nodegroup-platform
 tolerations:
   - {key: dedicated, operator: Equal, value: platform, effect: NoSchedule}
 resources:

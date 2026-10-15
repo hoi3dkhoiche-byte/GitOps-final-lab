@@ -342,7 +342,7 @@ spec:
       - name: scratch
         emptyDir: {}
       nodeSelector:
-        cmc-cloud-k8s-nodegroups: nodegroup-platform
+        cmccloud-k8s-nodegroups: nodegroup-platform
       tolerations:
       - effect: NoSchedule
         key: dedicated
@@ -369,6 +369,7 @@ spec:
   default: true
   objectStorage:
     bucket: final-lab-velero-manh
+    prefix: kubernetes-test
   config:
     checksumAlgorithm: ''
     insecureSkipTLSVerify: 'false'
