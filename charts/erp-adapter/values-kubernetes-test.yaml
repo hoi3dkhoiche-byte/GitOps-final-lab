@@ -8,7 +8,7 @@ global:
   namespace: erp
   registry: 10.60.50.30
   imagePullSecrets:
-    - name: harbor-pull
+    - name: harbor-pull-vault
 
 runtime:
   propertiesSecret:
