@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: erp-vault-test
+  namespace: argocd
+spec:
+  description: Vault integration for RabbitMQ credentials in test ERP
+  sourceRepos:
+    - https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+  destinations:
+    - namespace: erp
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: ServiceAccount
+    - group: external-secrets.io
+      kind: SecretStore
+    - group: external-secrets.io
+      kind: ExternalSecret
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: erp-vault-rabbit-test
+  namespace: argocd
+spec:
+  project: erp-vault-test
+  source:
+    repoURL: https://github.com/hoi3dkhoiche-byte/GitOps-final-lab.git
+    targetRevision: kubernetes-test
+    path: clusters/kubernetes-test/secrets/erp-rabbit
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: erp
