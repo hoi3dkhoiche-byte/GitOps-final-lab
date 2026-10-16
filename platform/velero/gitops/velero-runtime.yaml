@@ -144,6 +144,8 @@ spec:
         helm.sh/chart: velero-12.1.0
       annotations: null
     spec:
+      imagePullSecrets:
+      - name: harbor-pull
       serviceAccountName: velero-server
       automountServiceAccountToken: true
       securityContext:
@@ -164,7 +166,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
       - name: node-agent
-        image: docker.io/velero/velero:v1.18.1
+        image: 10.60.50.30/metasfresh/velero:v1.18.1
         imagePullPolicy: IfNotPresent
         ports:
         - name: http-monitoring
