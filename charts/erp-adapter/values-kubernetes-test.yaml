@@ -15,7 +15,7 @@ runtime:
     name: erp-properties-trial
     key: metasfresh.properties
   rabbitmqSecret:
-    name: erp-rabbit-secret
+    name: erp-rabbit-vault
     usernameKey: username
     passwordKey: password
 
