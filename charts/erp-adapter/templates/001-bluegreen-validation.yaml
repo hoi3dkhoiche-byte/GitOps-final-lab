@@ -1,0 +1,26 @@
+{{- $bg := .Values.ui.blueGreen -}}
+{{- if ne $bg.phase "disabled" -}}
+{{- if or .Values.ui.autoscaling.enabled .Values.ui.disruptionBudget.enabled -}}
+{{- fail "Blue-Green first release requires ui.autoscaling.enabled=false and ui.disruptionBudget.enabled=false" -}}
+{{- end -}}
+{{- if or (not .Values.ingress.enabled) (not .Values.networkPolicy.enabled) -}}
+{{- fail "Blue-Green requires ingress.enabled and networkPolicy.enabled" -}}
+{{- end -}}
+{{- $_ := required "Blue-Green requires preview.host" $bg.preview.host -}}
+{{- $_ := required "Blue-Green requires a verified preview.tlsSecretName" $bg.preview.tlsSecretName -}}
+{{- if eq $bg.preview.host .Values.ingress.host -}}
+{{- fail "preview.host must differ from ingress.host" -}}
+{{- end -}}
+{{- if not (regexMatch "^sha256:[0-9a-f]{64}$" .Values.ui.image.digest) -}}
+{{- fail "Blue-Green requires ui.image.digest (no mutable tags)" -}}
+{{- end -}}
+{{- if or (ne .Values.ui.config.apiUrl "/rest/api") (ne .Values.ui.config.websocketUrl "/stomp") -}}
+{{- fail "Blue-Green first release requires same-origin /rest/api and /stomp" -}}
+{{- end -}}
+{{- if has $bg.phase (list "prepare" "cutover") -}}
+{{- $image := printf "%s@%s" .Values.ui.image.repository .Values.ui.image.digest -}}
+{{- if or (ne $image $bg.migrationBaseline.image) (not (deepEqual .Values.ui.config $bg.migrationBaseline.config)) -}}
+{{- fail "prepare/cutover must match migrationBaseline image and config; new releases require steady" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}

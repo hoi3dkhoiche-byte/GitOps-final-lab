@@ -1,0 +1,22 @@
+{{- if and .Values.networkPolicy.enabled (ne .Values.ui.blueGreen.phase "disabled") }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: erp-ingress-to-ui-bluegreen
+  namespace: {{ include "erp.namespace" . }}
+  annotations: {argocd.argoproj.io/sync-wave: "-5"}
+spec:
+  podSelector:
+    matchLabels: {app: metasfresh-ui-bluegreen}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.ingressController.namespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.ingressController.podSelector | nindent 14 }}
+      ports:
+        - {protocol: TCP, port: 80}
+{{- end }}

@@ -1,0 +1,20 @@
+# SPEC FRAGMENT ONLY: merge these entries into the EXISTING owner of
+# argocd/metasfresh-erp-test. Preserve other ignoreDifferences/syncOptions.
+# Do not kubectl apply this file; it intentionally has no kind/metadata.
+spec:
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      name: metasfresh-ui-active
+      namespace: erp
+      jsonPointers:
+        - /spec/selector/rollouts-pod-template-hash
+    - group: ""
+      kind: Service
+      name: metasfresh-ui-preview
+      namespace: erp
+      jsonPointers:
+        - /spec/selector/rollouts-pod-template-hash
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true

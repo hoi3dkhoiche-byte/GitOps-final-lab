@@ -249,7 +249,138 @@
       "$ref": "#/definitions/component"
     },
     "ui": {
-      "$ref": "#/definitions/component"
+      "allOf": [
+        {
+          "$ref": "#/definitions/component"
+        },
+        {
+          "type": "object",
+          "required": [
+            "blueGreen",
+            "config"
+          ],
+          "properties": {
+            "blueGreen": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "phase",
+                "scaleDownDelaySeconds",
+                "revisionHistoryLimit",
+                "preview",
+                "migrationBaseline",
+                "configHistory"
+              ],
+              "properties": {
+                "phase": {
+                  "enum": [
+                    "disabled",
+                    "prepare",
+                    "cutover",
+                    "steady"
+                  ]
+                },
+                "scaleDownDelaySeconds": {
+                  "type": "integer",
+                  "minimum": 30
+                },
+                "revisionHistoryLimit": {
+                  "type": "integer",
+                  "minimum": 2
+                },
+                "preview": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "host",
+                    "tlsSecretName"
+                  ],
+                  "properties": {
+                    "host": {
+                      "type": "string",
+                      "pattern": "^$|^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$"
+                    },
+                    "tlsSecretName": {
+                      "type": "string",
+                      "pattern": "^$|^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$"
+                    }
+                  }
+                },
+                "migrationBaseline": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "image",
+                    "config"
+                  ],
+                  "properties": {
+                    "image": {
+                      "type": "string"
+                    },
+                    "config": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "apiUrl",
+                        "websocketUrl"
+                      ],
+                      "properties": {
+                        "apiUrl": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "websocketUrl": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                },
+                "configHistory": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "apiUrl",
+                      "websocketUrl"
+                    ],
+                    "properties": {
+                      "apiUrl": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "websocketUrl": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "config": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "apiUrl",
+                "websocketUrl"
+              ],
+              "properties": {
+                "apiUrl": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "websocketUrl": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "databaseTLS": {
       "type": "object",

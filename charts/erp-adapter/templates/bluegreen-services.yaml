@@ -1,0 +1,23 @@
+{{- if ne .Values.ui.blueGreen.phase "disabled" }}
+{{- range $role := list "active" "preview" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metasfresh-ui-{{ $role }}
+  namespace: {{ include "erp.namespace" $ }}
+  labels:
+    {{- include "erp.labels" $ | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  type: ClusterIP
+  # Only Rollouts adds/manages rollouts-pod-template-hash. Do not put it in Git.
+  selector: {app: metasfresh-ui-bluegreen}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+{{- end }}
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if ne .Values.ui.blueGreen.phase "steady" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,3 +11,5 @@ metadata:
 data:
   config.js: |
     {{- include "erp.frontendConfig" . | nindent 4 }}
+
+{{- end }}

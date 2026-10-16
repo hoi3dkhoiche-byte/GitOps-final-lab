@@ -1,0 +1,23 @@
+{{- if ne .Values.ui.blueGreen.phase "disabled" }}
+{{- $seen := dict }}
+{{- range $config := append .Values.ui.blueGreen.configHistory .Values.ui.config }}
+{{- $name := include "erp.uiVersionedConfigName" $config }}
+{{- if not (hasKey $seen $name) }}
+{{- $_ := set $seen $name true }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  namespace: {{ include "erp.namespace" $ }}
+  labels:
+    {{- include "erp.labels" $ | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+immutable: true
+data:
+  config.js: |
+    {{- include "erp.frontendConfig" (dict "Values" (dict "ui" (dict "config" $config))) | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}

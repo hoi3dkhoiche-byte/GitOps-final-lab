@@ -53,6 +53,17 @@ api:
       value: "/metasfresh-test"
 
 ui:
+  blueGreen:
+    phase: disabled
+    preview:
+      host: erp-test-preview.lab.internal
+      # Provision/verify SAN separately before enabling prepare. No fallback to active TLS.
+      tlsSecretName: erp-test-preview-tls
+    migrationBaseline:
+      image: 10.60.50.30/metasfresh/metas-frontend@sha256:c94094ff2d565bf8b40a72314ea76cca547ea29825a2ee815ada69c2707fb766
+      config: {apiUrl: /rest/api, websocketUrl: /stomp}
+    configHistory:
+      - {apiUrl: /rest/api, websocketUrl: /stomp}
   replicaCount: 1
   image:
     tag: ""

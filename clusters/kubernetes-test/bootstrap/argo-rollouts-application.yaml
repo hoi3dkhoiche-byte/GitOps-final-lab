@@ -1,0 +1,38 @@
+# Manual platform prerequisite; not an ERP Application and not auto-synced.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts-test
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    targetRevision: 2.43.7
+    helm:
+      releaseName: argo-rollouts
+      valuesObject:
+        fullnameOverride: argo-rollouts
+        installCRDs: true
+        keepCRDs: true
+        createClusterAggregateRoles: false
+        controller:
+          replicas: 1
+          image:
+            tag: v1.10.1
+          nodeSelector:
+            cmccloud-k8s-nodegroups: nodegroup-platform
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 512Mi}
+        dashboard:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-rollouts
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      # CRDs exceed client-side last-applied annotation size limits.
+      - ServerSideApply=true

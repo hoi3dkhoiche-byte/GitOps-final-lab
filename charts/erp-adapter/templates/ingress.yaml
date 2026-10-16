@@ -33,7 +33,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: metasfresh-ui
+                name: {{ if has .Values.ui.blueGreen.phase (list "cutover" "steady") }}metasfresh-ui-active{{ else }}metasfresh-ui{{ end }}
                 port: {number: 80}
   tls:
     - hosts:

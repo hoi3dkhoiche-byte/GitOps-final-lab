@@ -1,0 +1,24 @@
+name: Validate UI Blue-Green
+on:
+  pull_request:
+    branches: [kubernetes-test]
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: azure/setup-helm@v4.3.0
+        with:
+          version: v3.16.4
+      - run: python -m pip install -r tests/requirements-bluegreen.txt
+      - name: Lint, render, CRD schema and UI-only change guard
+        env:
+          PREVIOUS_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python tests/test_bluegreen.py --previous "$PREVIOUS_SHA"

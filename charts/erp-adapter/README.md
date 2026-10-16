@@ -121,3 +121,11 @@ it; exposing a Service does not add a Prometheus registry to the application.
 8. Release promotes the same tested digests through the separate GitOps repository.
 
 No cluster changes or secret values are validated by Helm rendering alone.
+
+## Optional UI Blue-Green on kubernetes-test
+
+Disabled by default. Migration uses the single `ui.blueGreen.phase` enum:
+`disabled -> prepare -> cutover -> steady`. API/Core remain Deployments.
+Read [the migration/release/rollback runbook](../../docs/bluegreen/RUNBOOK.md) before enabling.
+The platform controller and existing test Application ownership integration are separate prerequisites.
+Run `python tests/test_bluegreen.py --previous <base-SHA>` from the repository root.

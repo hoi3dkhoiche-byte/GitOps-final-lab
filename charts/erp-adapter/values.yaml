@@ -122,6 +122,22 @@ api:
       timeoutSeconds: 5
       failureThreshold: 3
 ui:
+  blueGreen:
+    # disabled -> prepare -> cutover -> steady; never enable implicitly.
+    phase: disabled
+    scaleDownDelaySeconds: 600
+    revisionHistoryLimit: 5
+    preview:
+      host: ""
+      tlsSecretName: ""
+    # Pin the pre-migration image/config; prepare and cutover reject changes.
+    migrationBaseline:
+      image: ""
+      config:
+        apiUrl: /rest/api
+        websocketUrl: /stomp
+    # Append prior ui.config objects before changing config. Keep throughout rollback window.
+    configHistory: []
   replicaCount: 2
   image:
     repository: 10.60.50.30/metasfresh/metas-frontend
