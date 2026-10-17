@@ -61,7 +61,10 @@ ui:
     cmc-cloud-k8s-nodegroups: null
     cmccloud-k8s-nodegroups: nodegroup-app
   autoscaling:
-    enabled: false
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 60
   disruptionBudget:
     enabled: false
 
