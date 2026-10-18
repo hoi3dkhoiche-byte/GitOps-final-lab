@@ -72,9 +72,9 @@ externalDB:
   pgHost: 10.60.40.113
   pgPort: 5432
   pgCIDR: 10.60.40.113/32
-  rabbitHost: 10.60.40.104
+  rabbitHost: 10.60.40.206
   rabbitPort: 5672
-  rabbitCIDR: 10.60.40.104/32
+  rabbitCIDR: 10.60.40.206/32
   searchHost: 10.60.40.30
   searchPort: 9201
   searchCIDR: 10.60.40.30/32
