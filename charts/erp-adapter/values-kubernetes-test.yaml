@@ -27,6 +27,8 @@ persistence:
   storageClass: highio
 
 core:
+  persistence:
+    existingClaim: core-business-nfs-pvc
   replicaCount: 1
   image:
     tag: ""
@@ -40,6 +42,8 @@ core:
       value: "/metasfresh-test"
 
 api:
+  persistence:
+    existingClaim: api-business-nfs-pvc
   replicaCount: 1
   image:
     tag: ""

@@ -1,0 +1,35 @@
+extraArgs:
+  device-based-fsids: "false"
+fullnameOverride: erp-nfs-server
+image:
+  pullPolicy: IfNotPresent
+  repository: registry.k8s.io/sig-storage/nfs-provisioner
+  tag: v4.0.8
+nodeSelector:
+  cmccloud-k8s-nodegroups: nodegroup-app
+persistence:
+  accessMode: ReadWriteOnce
+  enabled: true
+  size: 100Gi
+  storageClass: highio
+replicaCount: 1
+resources:
+  limits:
+    cpu: "1"
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+service:
+  type: ClusterIP
+storageClass:
+  allowVolumeExpansion: false
+  create: true
+  defaultClass: false
+  mountOptions:
+  - vers=4.1
+  - hard
+  - timeo=600
+  - retrans=2
+  name: erp-nfs
+  reclaimPolicy: Retain
