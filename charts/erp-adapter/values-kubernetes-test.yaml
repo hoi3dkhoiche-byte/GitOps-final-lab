@@ -1,15 +1,10 @@
-# Metasfresh ERP - Kubernetes TEST only
-# Do not reuse production ERP database credentials.
-
 validation:
   strict: false
-
 global:
   namespace: erp
   registry: 10.60.50.30
   imagePullSecrets:
-    - name: harbor-pull-vault
-
+  - name: harbor-pull-vault
 runtime:
   propertiesSecret:
     name: erp-properties-vault
@@ -18,48 +13,55 @@ runtime:
     name: erp-rabbit-vault
     usernameKey: username
     passwordKey: password
-
-# Temporary LAB setting. Requires security review before production.
 databaseTLS:
   enabled: false
-
 persistence:
   storageClass: highio
-
 core:
   persistence:
     existingClaim: core-business-nfs-pvc
   replicaCount: 1
   image:
-    tag: ""
+    tag: ''
     digest: sha256:c4327743ef50077590878558b8dd94c86391c56d806c9525cde1fdb5be4d5cd3
   nodeSelector:
     cmc-cloud-k8s-nodegroups: null
     cmccloud-k8s-nodegroups: nodegroup-app
-  javaOptions: "-Xms512m -Xmx2048m"
+  javaOptions: -Xms512m -Xmx2048m
   extraEnv:
-    - name: SPRING_RABBITMQ_VIRTUAL_HOST
-      value: "/metasfresh-test"
-
+  - name: SPRING_RABBITMQ_VIRTUAL_HOST
+    value: /metasfresh-test
 api:
   persistence:
     existingClaim: api-business-nfs-pvc
   replicaCount: 1
   image:
-    tag: ""
+    tag: ''
     digest: sha256:1364ad06166a8b8a830e9a84c10cf20ce404c3e3f5915a273f87469ac0d743c6
   nodeSelector:
     cmc-cloud-k8s-nodegroups: null
     cmccloud-k8s-nodegroups: nodegroup-app
-  javaOptions: "-Xms256m -Xmx1536m"
+  javaOptions: -Xms256m -Xmx1536m -Dmetasfresh.session.store-type=jdbc -Dmetasfresh.session.jdbc.initialize-schema=false
+    -Dspring.session.timeout=30m
   extraEnv:
-    - name: SPRING_RABBITMQ_VIRTUAL_HOST
-      value: "/metasfresh-test"
-
+  - name: SPRING_RABBITMQ_VIRTUAL_HOST
+    value: /metasfresh-test
+  sessionRuntime:
+    baseImageDigest: sha256:1364ad06166a8b8a830e9a84c10cf20ce404c3e3f5915a273f87469ac0d743c6
+  extraVolumes:
+  - name: session-runtime
+    persistentVolumeClaim:
+      claimName: api-session-runtime-pvc
+      readOnly: true
+  extraVolumeMounts:
+  - name: session-runtime
+    mountPath: /opt/metasfresh-webui-api/metasfresh-webui-api.jar
+    subPath: metasfresh-api-session-5489b8c6a43683b83c9c484bab1880225f5a27f135e1f329a0ecec3968adb4c0.jar
+    readOnly: true
 ui:
   replicaCount: 1
   image:
-    tag: ""
+    tag: ''
     digest: sha256:c94094ff2d565bf8b40a72314ea76cca547ea29825a2ee815ada69c2707fb766
   nodeSelector:
     cmc-cloud-k8s-nodegroups: null
@@ -71,7 +73,6 @@ ui:
     targetCPUUtilizationPercentage: 60
   disruptionBudget:
     enabled: false
-
 externalDB:
   pgHost: 10.60.40.113
   pgPort: 5432
@@ -83,12 +84,10 @@ externalDB:
   searchPort: 9201
   searchCIDR: 10.60.40.30/32
   searchTransportPort: 0
-
 ingress:
   enabled: true
   className: haproxy-test
   host: erp-test.lab.internal
   tlsSecretName: erp-origin-tls
-
 networkPolicy:
   enabled: true

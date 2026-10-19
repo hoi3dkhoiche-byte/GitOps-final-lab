@@ -1,0 +1,7 @@
+{
+  "file": "metasfresh-api-session-5489b8c6a43683b83c9c484bab1880225f5a27f135e1f329a0ecec3968adb4c0.jar",
+  "sha256": "5489b8c6a43683b83c9c484bab1880225f5a27f135e1f329a0ecec3968adb4c0",
+  "baseImage": "10.60.50.30/metasfresh/metas-api@sha256:1364ad06166a8b8a830e9a84c10cf20ce404c3e3f5915a273f87469ac0d743c6",
+  "sessionTests": "passed",
+  "testDatabase": "session_jdbc_test"
+}

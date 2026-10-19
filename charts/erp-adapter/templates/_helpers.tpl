@@ -76,6 +76,11 @@ const config = {
 {{- $cfg := index $root.Values $component -}}
 {{- $name := printf "metasfresh-%s" $component -}}
 {{- $backend := ne $component "ui" -}}
+{{- if and (eq $component "api") $cfg.sessionRuntime -}}
+{{- if ne $cfg.image.digest $cfg.sessionRuntime.baseImageDigest -}}
+{{- fail "Manual session JAR is bound to api.image.digest; rebuild the runtime JAR before changing the API image" -}}
+{{- end -}}
+{{- end -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -199,6 +204,9 @@ spec:
               subPath: config.js
               readOnly: true
             {{- end }}
+            {{- with $cfg.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
       volumes:
         {{- if $backend }}
         - name: erp-properties
@@ -228,5 +236,8 @@ spec:
         - name: frontend-config
           configMap:
             name: metasfresh-frontend-config
+        {{- end }}
+        {{- with $cfg.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
 {{- end -}}

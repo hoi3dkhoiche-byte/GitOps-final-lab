@@ -47,6 +47,28 @@
         "storageClassName": "erp-nfs",
         "volumeMode": "Filesystem"
       }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "api-session-runtime-pvc",
+        "namespace": "erp",
+        "labels": {
+          "app.kubernetes.io/managed-by": "session-manual"
+        }
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteMany"
+        ],
+        "storageClassName": "erp-nfs",
+        "resources": {
+          "requests": {
+            "storage": "2Gi"
+          }
+        }
+      }
     }
   ]
 }
