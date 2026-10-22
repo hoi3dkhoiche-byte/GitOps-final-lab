@@ -98,6 +98,29 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: erp-core-to-core-8282
+  namespace: {{ include "erp.namespace" . }}
+  annotations: {argocd.argoproj.io/sync-wave: "-5"}
+spec:
+  podSelector:
+    matchLabels: {app: metasfresh-core}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app: metasfresh-core}
+      ports:
+        - {protocol: TCP, port: 8282}
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: {app: metasfresh-core}
+      ports:
+        - {protocol: TCP, port: 8282}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: erp-backend-to-data
   namespace: {{ include "erp.namespace" . }}
   annotations: {argocd.argoproj.io/sync-wave: "-5"}
